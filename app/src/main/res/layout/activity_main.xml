@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1E1E1E"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <!-- Connection Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/connectionCard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="#2D2D2D"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Server Connection"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:hint="Server IP"
+                    android:textColorHint="#888888"
+                    app:boxBackgroundColor="#3D3D3D"
+                    app:boxStrokeColor="#4CAF50"
+                    app:hintTextColor="#4CAF50">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/serverIpInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:textColor="#FFFFFF" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:hint="Server Port"
+                    android:textColorHint="#888888"
+                    app:boxBackgroundColor="#3D3D3D"
+                    app:boxStrokeColor="#4CAF50"
+                    app:hintTextColor="#4CAF50">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/serverPortInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:textColor="#FFFFFF" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/connectButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Connect"
+                    android:textColor="#FFFFFF"
+                    app:backgroundTint="#4CAF50"
+                    app:cornerRadius="8dp" />
+
+                <TextView
+                    android:id="@+id/statusText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
+                    android:text="Not Connected"
+                    android:textColor="#888888"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Gamepad Controls Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/gamepadCard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardBackgroundColor="#2D2D2D"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/connectionCard">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+                <!-- Left Joystick -->
+                <FrameLayout
+                    android:id="@+id/leftJoystickContainer"
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
+                    android:background="@drawable/joystick_background"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <View
+                        android:id="@+id/leftJoystick"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/joystick_thumb" />
+                </FrameLayout>
+
+                <!-- D-Pad -->
+                <LinearLayout
+                    android:id="@+id/dpadContainer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="@id/leftJoystickContainer"
+                    app:layout_constraintStart_toStartOf="@id/leftJoystickContainer"
+                    app:layout_constraintTop_toBottomOf="@id/leftJoystickContainer">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnDpadUp"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:text="↑"
+                        android:textColor="#FFFFFF"
+                        android:textSize="20sp"
+                        app:cornerRadius="8dp"
+                        app:strokeColor="#4CAF50" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnDpadLeft"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:text="←"
+                            android:textColor="#FFFFFF"
+                            android:textSize="20sp"
+                            app:cornerRadius="8dp"
+                            app:strokeColor="#4CAF50" />
+
+                        <Space
+                            android:layout_width="50dp"
+                            android:layout_height="50dp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnDpadRight"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:text="→"
+                            android:textColor="#FFFFFF"
+                            android:textSize="20sp"
+                            app:cornerRadius="8dp"
+                            app:strokeColor="#4CAF50" />
+                    </LinearLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnDpadDown"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:text="↓"
+                        android:textColor="#FFFFFF"
+                        android:textSize="20sp"
+                        app:cornerRadius="8dp"
+                        app:strokeColor="#4CAF50" />
+                </LinearLayout>
+
+                <!-- Face Buttons (A, B, X, Y) -->
+                <LinearLayout
+                    android:id="@+id/faceButtonsContainer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnY"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_gravity="center"
+                        android:text="Y"
+                        android:textColor="#FFFFFF"
+                        android:textSize="20sp"
+                        app:backgroundTint="#FFC107"
+                        app:cornerRadius="30dp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnX"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:text="X"
+                            android:textColor="#FFFFFF"
+                            android:textSize="20sp"
+                            app:backgroundTint="#2196F3"
+                            app:cornerRadius="30dp" />
+
+                        <Space
+                            android:layout_width="60dp"
+                            android:layout_height="60dp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnB"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:text="B"
+                            android:textColor="#FFFFFF"
+                            android:textSize="20sp"
+                            app:backgroundTint="#F44336"
+                            app:cornerRadius="30dp" />
+                    </LinearLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnA"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_gravity="center"
+                        android:text="A"
+                        android:textColor="#FFFFFF"
+                        android:textSize="20sp"
+                        app:backgroundTint="#4CAF50"
+                        app:cornerRadius="30dp" />
+                </LinearLayout>
+
+                <!-- Right Joystick -->
+                <FrameLayout
+                    android:id="@+id/rightJoystickContainer"
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/joystick_background"
+                    app:layout_constraintEnd_toEndOf="@id/faceButtonsContainer"
+                    app:layout_constraintStart_toStartOf="@id/faceButtonsContainer"
+                    app:layout_constraintTop_toBottomOf="@id/faceButtonsContainer">
+
+                    <View
+                        android:id="@+id/rightJoystick"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/joystick_thumb" />
+                </FrameLayout>
+
+                <!-- Shoulder Buttons -->
+                <LinearLayout
+                    android:id="@+id/shoulderButtons"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/dpadContainer">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnL1"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="L1"
+                        android:textColor="#FFFFFF"
+                        app:cornerRadius="8dp"
+                        app:strokeColor="#9E9E9E" />
+
+                    <Space
+                        android:layout_width="8dp"
+                        android:layout_height="wrap_content" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnL2"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="L2"
+                        android:textColor="#FFFFFF"
+                        app:cornerRadius="8dp"
+                        app:strokeColor="#9E9E9E" />
+
+                    <Space
+                        android:layout_width="16dp"
+                        android:layout_height="wrap_content" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnR2"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="R2"
+                        android:textColor="#FFFFFF"
+                        app:cornerRadius="8dp"
+                        app:strokeColor="#9E9E9E" />
+
+                    <Space
+                        android:layout_width="8dp"
+                        android:layout_height="wrap_content" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnR1"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="R1"
+                        android:textColor="#FFFFFF"
+                        app:cornerRadius="8dp"
+                        app:strokeColor="#9E9E9E" />
+                </LinearLayout>
+
+                <!-- Menu Buttons -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/shoulderButtons">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnSelect"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SELECT"
+                        android:textColor="#FFFFFF"
+                        app:cornerRadius="8dp"
+                        app:strokeColor="#9E9E9E" />
+
+                    <Space
+                        android:layout_width="32dp"
+                        android:layout_height="wrap_content" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnStart"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="START"
+                        android:textColor="#FFFFFF"
+                        app:cornerRadius="8dp"
+                        app:strokeColor="#9E9E9E" />
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
