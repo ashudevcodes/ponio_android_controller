@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +14,13 @@ import com.google.android.material.button.MaterialButton;
 public class ControllerActivity extends AppCompatActivity {
 
     private GamepadManager gamepadManager;
+    private FloatingJoystickView leftJoystick;
+    private FloatingJoystickView rightJoystick;
+    private FrameLayout touchAreaLeft;
+    private FrameLayout touchAreaRight;
+    
+    private int activeLeftPointerId = -1;
+    private int activeRightPointerId = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +33,7 @@ public class ControllerActivity extends AppCompatActivity {
         
         initializeControllerView();
         setupGamepadControls();
+        setupFloatingJoysticks();
         
         if (gamepadManager.isConnected) {
             gamepadManager.enableGamepadControls(true);
@@ -64,9 +73,11 @@ public class ControllerActivity extends AppCompatActivity {
         gamepadManager.btnDpadDown = findViewById(R.id.btnDpadDown);
         gamepadManager.btnDpadLeft = findViewById(R.id.btnDpadLeft);
         gamepadManager.btnDpadRight = findViewById(R.id.btnDpadRight);
-
-        gamepadManager.leftJoystick = findViewById(R.id.leftJoystick);
-        gamepadManager.rightJoystick = findViewById(R.id.rightJoystick);
+        
+        touchAreaLeft = findViewById(R.id.touchAreaLeft);
+        touchAreaRight = findViewById(R.id.touchAreaRight);
+        leftJoystick = findViewById(R.id.leftJoystick);
+        rightJoystick = findViewById(R.id.rightJoystick);
     }
 
     private void setupGamepadControls() {
@@ -87,9 +98,136 @@ public class ControllerActivity extends AppCompatActivity {
         setupButton(gamepadManager.btnDpadDown, "DPAD_DOWN");
         setupButton(gamepadManager.btnDpadLeft, "DPAD_LEFT");
         setupButton(gamepadManager.btnDpadRight, "DPAD_RIGHT");
+    }
 
-        setupJoystick(gamepadManager.leftJoystick, true);
-        setupJoystick(gamepadManager.rightJoystick, false);
+    @SuppressLint("ClickableViewAccessibility")
+    private void setupFloatingJoysticks() {
+        leftJoystick.setIsLeft(true);
+        rightJoystick.setIsLeft(false);
+        
+        leftJoystick.setJoystickListener(new FloatingJoystickView.JoystickListener() {
+            @Override
+            public void onJoystickMoved(float x, float y, boolean isLeft) {
+                if (!gamepadManager.isConnected) return;
+                gamepadManager.sendCommand(String.format("LJOY:%.3f,%.3f", x, y));
+            }
+
+            @Override
+            public void onJoystickReleased(boolean isLeft) {
+                if (!gamepadManager.isConnected) return;
+                gamepadManager.sendCommand("LJOY:0.000,0.000");
+            }
+        });
+        
+        rightJoystick.setJoystickListener(new FloatingJoystickView.JoystickListener() {
+            @Override
+            public void onJoystickMoved(float x, float y, boolean isLeft) {
+                if (!gamepadManager.isConnected) return;
+                gamepadManager.sendCommand(String.format("RJOY:%.3f,%.3f", x, y));
+            }
+
+            @Override
+            public void onJoystickReleased(boolean isLeft) {
+                if (!gamepadManager.isConnected) return;
+                gamepadManager.sendCommand("RJOY:0.000,0.000");
+            }
+        });
+        
+        // Setup touch area for left joystick
+        touchAreaLeft.setOnTouchListener((v, event) -> {
+            if (!gamepadManager.isConnected) {
+                Toast.makeText(this, "Connection lost", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+            
+            int pointerIndex = event.getActionIndex();
+            int pointerId = event.getPointerId(pointerIndex);
+            
+            switch (event.getActionMasked()) {
+                case MotionEvent.ACTION_DOWN:
+                case MotionEvent.ACTION_POINTER_DOWN:
+                    if (activeLeftPointerId == -1) {
+                        activeLeftPointerId = pointerId;
+                        leftJoystick.show(event.getX(pointerIndex), event.getY(pointerIndex));
+                    }
+                    return true;
+                    
+                case MotionEvent.ACTION_MOVE:
+                    if (activeLeftPointerId != -1) {
+                        int index = event.findPointerIndex(activeLeftPointerId);
+                        if (index != -1) {
+                            leftJoystick.updateStickPosition(event.getX(index), event.getY(index));
+                        }
+                    }
+                    return true;
+                    
+                case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_POINTER_UP:
+                    if (pointerId == activeLeftPointerId) {
+                        activeLeftPointerId = -1;
+                        leftJoystick.resetStick();
+                        leftJoystick.hide();
+                    }
+                    return true;
+                    
+                case MotionEvent.ACTION_CANCEL:
+                    if (activeLeftPointerId != -1) {
+                        activeLeftPointerId = -1;
+                        leftJoystick.resetStick();
+                        leftJoystick.hide();
+                    }
+                    return true;
+            }
+            return false;
+        });
+        
+        // Setup touch area for right joystick
+        touchAreaRight.setOnTouchListener((v, event) -> {
+            if (!gamepadManager.isConnected) {
+                Toast.makeText(this, "Connection lost", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+            
+            int pointerIndex = event.getActionIndex();
+            int pointerId = event.getPointerId(pointerIndex);
+            
+            switch (event.getActionMasked()) {
+                case MotionEvent.ACTION_DOWN:
+                case MotionEvent.ACTION_POINTER_DOWN:
+                    if (activeRightPointerId == -1) {
+                        activeRightPointerId = pointerId;
+                        rightJoystick.show(event.getX(pointerIndex), event.getY(pointerIndex));
+                    }
+                    return true;
+                    
+                case MotionEvent.ACTION_MOVE:
+                    if (activeRightPointerId != -1) {
+                        int index = event.findPointerIndex(activeRightPointerId);
+                        if (index != -1) {
+                            rightJoystick.updateStickPosition(event.getX(index), event.getY(index));
+                        }
+                    }
+                    return true;
+                    
+                case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_POINTER_UP:
+                    if (pointerId == activeRightPointerId) {
+                        activeRightPointerId = -1;
+                        rightJoystick.resetStick();
+                        rightJoystick.hide();
+                    }
+                    return true;
+                    
+                case MotionEvent.ACTION_CANCEL:
+                    if (activeRightPointerId != -1) {
+                        activeRightPointerId = -1;
+                        rightJoystick.resetStick();
+                        rightJoystick.hide();
+                    }
+                    return true;
+            }
+            return false;
+        });
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -112,56 +250,6 @@ public class ControllerActivity extends AppCompatActivity {
                     button.setPressed(false);
                     return true;
             }
-            return false;
-        });
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    private void setupJoystick(View joystick, boolean isLeft) {
-        joystick.setOnTouchListener((v, event) -> {
-            if (!gamepadManager.isConnected) {
-                Toast.makeText(this, "Connection lost", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-
-            float x = event.getX() / v.getWidth();
-            float y = event.getY() / v.getHeight();
-
-            x = Math.max(0, Math.min(1, x));
-            y = Math.max(0, Math.min(1, y));
-
-            float joyX = (x - 0.5f) * 2.0f;
-            float joyY = (y - 0.5f) * 2.0f;
-
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                case MotionEvent.ACTION_MOVE:
-                    if (isLeft) {
-                        gamepadManager.leftJoyX = x;
-                        gamepadManager.leftJoyY = y;
-                        gamepadManager.sendCommand(String.format("LJOY:%.3f,%.3f", joyX, joyY));
-                    } else {
-                        gamepadManager.rightJoyX = x;
-                        gamepadManager.rightJoyY = y;
-                        gamepadManager.sendCommand(String.format("RJOY:%.3f,%.3f", joyX, joyY));
-                    }
-                    return true;
-
-                case MotionEvent.ACTION_UP:
-                case MotionEvent.ACTION_CANCEL:
-                    // Reset to center
-                    if (isLeft) {
-                        gamepadManager.sendCommand("LJOY:0.000,0.000");
-                        gamepadManager.leftJoyX = 0.5f;
-                        gamepadManager.leftJoyY = 0.5f;
-                    } else {
-                        gamepadManager.sendCommand("RJOY:0.000,0.000");
-                        gamepadManager.rightJoyX = 0.5f;
-                        gamepadManager.rightJoyY = 0.5f;
-                    }
-                    return true;
-            }
-
             return false;
         });
     }
