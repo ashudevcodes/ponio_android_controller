@@ -1,13 +1,19 @@
 <h1>Ponio</h1>
 
-> A virtual gamepad Linux server for the [Ponio Mobile Application](https://github.com/ashudevcodes/ponio_android_controller)
+> A virtual gamepad Linux server for the [Ponio Linux Server](https://github.com/ashudevcodes/ponio)
 
-Transform your Android phone into a wireless gamepad for Linux gaming! (ARCH Btw)
+Transform your Android phone into a wireless gamepad for gaming!
+
+<kbd><img width="1919" height="1079" alt="ponioWithGame" src="https://github.com/user-attachments/assets/f92d35af-2f4e-4e0d-a11b-23e066973959" /></kbd>
 
 <kbd><img width="1919" height="1079" alt="ponioWithGame" src="https://github.com/user-attachments/assets/e1d49089-2e2d-4729-bc17-39385c2a4dd0" /></kbd>
 
 ## Features
-- Wireless control over TCP (UDP coming soon... i guess)
+- Wireless control over TCP (UDP in development)
+- Buetooth Support (Comming soon..)
+- Floating Joysticks
+- mobile Touchpad specific controls (i dont wnat to copy physical joysicks desige)
+- TODO: Auto find local Wifi and bluetooth devices and click to connect
 
 ## Pro Tips for Best Experience
 - **Perfect for story-based games** - Works great with single-player adventures
@@ -15,15 +21,15 @@ Transform your Android phone into a wireless gamepad for Linux gaming! (ARCH Btw
 - **Zero latency** - Direct device-to-device connection = 0ms lag, no buffer
 
 ## Requirements
-- Linux OS
-- Android device with Ponio app installed
+- Android Device
+- Ponio app installed
 - Both devices connected to the same WiFi network
 
 ## Usage
-1. Run the server 
-2. Open the mobile app
-3. Connect
-4. Game
+1. Open Ponio App
+2. find pc lcoal IP using command `ip arr`
+3. Enter that ip on Server IP section
+4. Connect && Game
 
 ## Use Cases
 
@@ -35,22 +41,9 @@ Transform your Android phone into a wireless gamepad for Linux gaming! (ARCH Btw
 
 ### Download
 
-> [!NOTE]
-> This will download **ponio** to the current directory and make the downloaded file executable
+You can download the latest version of Ponio App from:
 
-```sh 
-
-curl -L -o ponio https://github.com/ashudevcodes/ponio/releases/latest/download/ponio
-chmod +x ponio
-
-```
-```sh
-# To run the server
-./ponio
-```
-## Built With
-- [raylib](https://www.raylib.com/) - For UI rendering
-- [libevdev](https://www.freedesktop.org/software/libevdev/doc/latest/index.html) - To handle joystick command inputs
+- [Latest Release](https://github.com/ashudevcodes/ponio_android_controller/releases)
 
 ## Contributing
 Got ideas? Cool. Issues? Sure. Pull requests? Why not
@@ -61,7 +54,7 @@ Got ideas? Cool. Issues? Sure. Pull requests? Why not
 
 ## Links
 
-- [Ponio Android App](https://github.com/ashudevcodes/ponio_android_controller)
+- [Ponio Linux Server](https://github.com/ashudevcodes/ponio)
 
 ---
 
