@@ -1,6 +1,6 @@
 <h1>Ponio</h1>
 
-> A virtual gamepad Linux server for the [Ponio Linux Server](https://github.com/ashudevcodes/ponio)
+> A virtual gamepad Applicaion for the [Ponio Linux Server](https://github.com/ashudevcodes/ponio)
 
 Transform your Android phone into a wireless gamepad for gaming!
 
