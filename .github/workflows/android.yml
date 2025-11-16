@@ -50,7 +50,6 @@ jobs:
 
           gh release create "$VERSION" \
               ./app/build/outputs/apk/debug/app-debug.apk \
-              ./app/build/outputs/apk/release/app-release-unsigned.apk \
               --title "$RANDOM_GREETING" \
               --notes "${COMMITS}"
       env:
