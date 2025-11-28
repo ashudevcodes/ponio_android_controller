@@ -1,69 +1,203 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#1E1E1E"
     android:fillViewport="true">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:padding="16dp">
 
-        <LinearLayout
+        <!-- Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="🎮 Ponio"
+            android:textColor="#FFFFFF"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Virtual Gamepad Controller"
+            android:textColor="#888888"
+            android:textSize="14sp"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Auto-Discovery Section -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="302dp"
-            tools:ignore="MissingConstraints">
+            app:cardBackgroundColor="#2D2D2D"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp"
+            android:layout_marginBottom="16dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Server Connection"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <com.google.android.material.textfield.TextInputLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:hint="Server IP"
-                android:textColorHint="#888888"
-                app:boxBackgroundColor="#3D3D3D"
-                app:boxStrokeColor="#4CAF50"
-                app:hintTextColor="#4CAF50">
+                android:orientation="vertical"
+                android:padding="16dp">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/serverIpInput"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🔍 Auto-Discovery"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="12dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/scanButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:textColor="#FFFFFF" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:text="Scan for Servers"
+                    app:icon="@android:drawable/ic_menu_search"
+                    app:backgroundTint="#4CAF50"
+                    app:cornerRadius="8dp" />
 
-            <com.google.android.material.textfield.TextInputLayout
+                <ProgressBar
+                    android:id="@+id/scanProgress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/scanStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text=""
+                    android:textColor="#888888"
+                    android:textSize="12sp"
+                    android:layout_marginTop="8dp"
+                    android:visibility="gone" />
+
+                <!-- Server List -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/serverListView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:maxHeight="200dp" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Manual Connection Section -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="#2D2D2D"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp"
+            android:layout_marginBottom="16dp">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:hint="Server Port"
-                android:textColorHint="#888888"
-                app:boxBackgroundColor="#3D3D3D"
-                app:boxStrokeColor="#4CAF50"
-                app:hintTextColor="#4CAF50">
+                android:orientation="vertical"
+                android:padding="16dp">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/serverPortInput"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="⚙️ Manual Connection"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="12dp" />
+
+                <!-- Protocol Selection -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Connection Protocol"
+                    android:textColor="#CCCCCC"
+                    android:textSize="14sp"
+                    android:layout_marginBottom="8dp" />
+
+                <RadioGroup
+                    android:id="@+id/protocolGroup"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:textColor="#FFFFFF" />
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="16dp">
+
+                    <RadioButton
+                        android:id="@+id/radioTcp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="TCP"
+                        android:textColor="#FFFFFF"
+                        android:buttonTint="#4CAF50"
+                        android:checked="true" />
+
+                    <RadioButton
+                        android:id="@+id/radioUdp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="UDP"
+                        android:textColor="#FFFFFF"
+                        android:buttonTint="#2196F3" />
+
+                    <RadioButton
+                        android:id="@+id/radioBluetooth"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Bluetooth"
+                        android:textColor="#FFFFFF"
+                        android:buttonTint="#9C27B0" />
+                </RadioGroup>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Server IP / Bluetooth Address"
+                    android:textColorHint="#888888"
+                    app:boxBackgroundColor="#3D3D3D"
+                    app:boxStrokeColor="#4CAF50"
+                    app:hintTextColor="#4CAF50">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/serverIpInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:textColor="#FFFFFF" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:hint="Port"
+                    android:textColorHint="#888888"
+                    app:boxBackgroundColor="#3D3D3D"
+                    app:boxStrokeColor="#4CAF50"
+                    app:hintTextColor="#4CAF50">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/serverPortInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:textColor="#FFFFFF" />
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/connectButton"
@@ -71,45 +205,54 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:text="Connect"
-                    android:textColor="#FFFFFF"
-                    app:backgroundTint="#6977D5"
+                    app:icon="@android:drawable/ic_menu_upload"
+                    app:backgroundTint="#4CAF50"
                     app:cornerRadius="8dp" />
-            </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                android:id="@+id/statusText"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/statusText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
+                    android:text="Not Connected"
+                    android:textColor="#888888"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Help Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="#2D2D2D"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="8dp"
-                android:text="Not Connected"
-                android:textColor="#888888"
-                android:textSize="14sp" />
-        </LinearLayout>
-		
-		<LinearLayout 
-		  android:layout_width="match_parent" android:layout_height="match_parent"
-            android:orientation="horizontal">
+                android:orientation="vertical"
+                android:padding="16dp">
 
-		<Button
-		  android:id="@+id/scanBtn"
-		  android:layout_width="match_parent"
-		  android:layout_height="wrap_content"
-		  android:text="Scan LAN for IPs" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="💡 Quick Guide"
+                    android:textColor="#FFC107"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp" />
 
-		<TextView
-		  android:id="@+id/status"
-		  android:layout_width="match_parent"
-		  android:layout_height="wrap_content"
-		  android:text="Idle"
-		  android:paddingTop="8dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="• TCP: Standard connection (recommended)\n• UDP: Low latency, faster gaming\n• Bluetooth: Wireless without WiFi\n\n1. Click 'Scan for Servers' to find Ponio\n2. Or enter IP manually\n3. Choose connection type\n4. Connect and enjoy!"
+                    android:textColor="#CCCCCC"
+                    android:textSize="12sp"
+                    android:lineSpacingMultiplier="1.2" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-		<androidx.recyclerview.widget.RecyclerView
-		  android:id="@+id/recycler"
-		  android:layout_width="match_parent"
-		  android:layout_height="0dp"
-		  android:layout_weight="1"/>
-	  </LinearLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </ScrollView>
