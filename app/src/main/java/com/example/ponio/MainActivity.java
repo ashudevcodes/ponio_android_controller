@@ -25,6 +25,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private static final int PERMISSION_REQUEST_CODE = 100;
+	
+	// android inbuilt UIs veriabls dicleration
     private TextInputEditText serverIpInput;
     private TextInputEditText serverPortInput;
     private MaterialButton connectButton;
@@ -33,14 +35,18 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView serverListView;
     private ProgressBar scanProgress;
     private TextView scanStatus;
-    private ServerListAdapter adapter;
     private RadioGroup protocolGroup;
+
+	// custom writen classes veriabls dicleration
+	private ServerListAdapter adapter;
+	private ServerDiscovery serverDiscovery;
     private GamepadManager gamepadManager;
-    private ServerDiscovery serverDiscovery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+		checkPermissions();
+
         setContentView(R.layout.activity_main);
 
         gamepadManager = GamepadManager.getInstance();
@@ -49,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
         initializeViews();
         setupConnectionControls();
         setupAutoDiscovery();
-        checkPermissions();
     }
 
     private void initializeViews() {
@@ -93,18 +98,28 @@ public class MainActivity extends AppCompatActivity {
             } else if (checkedId == R.id.radioBluetooth) {
                 protocol = "bluetooth";
             }
-            gamepadManager.setProtocol(protocol);
-            Toast.makeText(this, "Protocol: " + protocol.toUpperCase(), Toast.LENGTH_SHORT).show();
-        });
 
-        // Manual connect button
+            gamepadManager.setProtocol(protocol);
+
+			Toast.makeText(this,
+			  "Protocol: " + protocol.toUpperCase(),
+			  Toast.LENGTH_SHORT)
+			  .show();
+		  });
+
+		// connecting to server event
         connectButton.setOnClickListener(v -> {
             if (!gamepadManager.isConnected) {
                 String ip = serverIpInput.getText().toString().trim();
                 String portStr = serverPortInput.getText().toString().trim();
 
                 if (ip.isEmpty() || portStr.isEmpty()) {
-                    Toast.makeText(this, "Please enter IP and Port or scan for servers", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(
+						this,
+						"Please enter IP and Port or scan for servers",
+						Toast.LENGTH_SHORT
+					).show();
+
                     return;
                 }
 
@@ -112,7 +127,11 @@ public class MainActivity extends AppCompatActivity {
                     int port = Integer.parseInt(portStr);
                     connectToServer(ip, port);
                 } catch (NumberFormatException e) {
-                    Toast.makeText(this, "Invalid port number", Toast.LENGTH_SHORT).show();
+					Toast.makeText(
+					  this,
+					  "Invalid port number",
+					  Toast.LENGTH_SHORT
+					).show();
                 }
 
             } else {

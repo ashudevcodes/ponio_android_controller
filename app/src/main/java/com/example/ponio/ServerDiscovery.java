@@ -68,10 +68,19 @@ public class ServerDiscovery {
 
                 while (System.currentTimeMillis() - startTime < BROADCAST_TIMEOUT) {
                     try {
-                        DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+						 DatagramPacket receivePacket = new DatagramPacket(
+								 receiveData, 
+								 receiveData.length
+						 );
+
                         socket.receive(receivePacket);
 
-                        String response = new String(receivePacket.getData(), 0, receivePacket.getLength());
+                        String response = new String(
+							  receivePacket.getData(),
+							  0,
+							  receivePacket.getLength()
+						);
+
                         String serverIp = receivePacket.getAddress().getHostAddress();
 
                         // Parse server response (format: "PONIO_SERVER:name:port:tcp/udp")

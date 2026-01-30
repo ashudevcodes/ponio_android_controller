@@ -32,7 +32,7 @@ public class GamepadManager {
     // Private constructor
     private GamepadManager() {
         executor = Executors.newSingleThreadExecutor();
-        protocol = ConnectionProtocol.create("tcp"); // Default TCP
+        protocol = ConnectionProtocol.create("tcp");
     }
 
     // Singleton instance accessor
@@ -83,8 +83,8 @@ public class GamepadManager {
         executor.execute(() -> {
             try {
                 if (protocol != null && protocol.isConnected()) {
+				    protocol.disconnect();
                     sendCommand("DISCONNECT");
-                    protocol.disconnect();
                 }
                 isConnected = false;
 
