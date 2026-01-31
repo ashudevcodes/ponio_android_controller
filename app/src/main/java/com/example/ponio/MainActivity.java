@@ -93,11 +93,12 @@ public class MainActivity extends AppCompatActivity {
             String protocol = "tcp";
             if (checkedId == R.id.radioTcp) {
                 protocol = "tcp";
-            } else if (checkedId == R.id.radioUdp) {
-                protocol = "udp";
-            } else if (checkedId == R.id.radioBluetooth) {
-                protocol = "bluetooth";
             }
+	  // else if (checkedId == R.id.radioUdp) {
+	  //              protocol = "udp";
+	  //          } else if (checkedId == R.id.radioBluetooth) {
+	  //              protocol = "bluetooth";
+	  //          }
 
             gamepadManager.setProtocol(protocol);
 
@@ -241,16 +242,18 @@ public class MainActivity extends AppCompatActivity {
             case "tcp":
                 protocolGroup.check(R.id.radioTcp);
                 break;
-            case "udp":
-                protocolGroup.check(R.id.radioUdp);
-                break;
-            case "bluetooth":
-                protocolGroup.check(R.id.radioBluetooth);
-                break;
+            // case "udp":
+            //     protocolGroup.check(R.id.radioUdp);
+            //     break;
+            // case "bluetooth":
+            //     protocolGroup.check(R.id.radioBluetooth);
+            //     break;
         }
     }
 
     private void checkPermissions() {
+        // Bluetooth permissions commented out - only TCP needed
+        /*
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             // Android 12+ needs Bluetooth permissions
             String[] permissions = {
@@ -272,12 +275,15 @@ public class MainActivity extends AppCompatActivity {
                 ActivityCompat.requestPermissions(this, permissions, PERMISSION_REQUEST_CODE);
             }
         }
+        */
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        // Bluetooth permission handling commented out
+        /*
         if (requestCode == PERMISSION_REQUEST_CODE) {
             boolean allGranted = true;
             for (int result : grantResults) {
@@ -293,6 +299,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast.LENGTH_LONG).show();
             }
         }
+        */
     }
 
     @Override

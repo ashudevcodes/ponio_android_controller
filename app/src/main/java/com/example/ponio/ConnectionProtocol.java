@@ -1,8 +1,8 @@
 package com.example.ponio;
 
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
+// import android.bluetooth.BluetoothAdapter;
+// import android.bluetooth.BluetoothDevice;
+// import android.bluetooth.BluetoothSocket;
 import android.util.Log;
 
 import java.io.IOException;
@@ -67,7 +67,8 @@ public abstract class ConnectionProtocol {
         }
     }
 
-    // UDP Implementation
+    // UDP Implementation - COMMENTED OUT
+    /*
     public static class UDPProtocol extends ConnectionProtocol {
         private DatagramSocket socket;
         private InetAddress serverAddress;
@@ -126,8 +127,10 @@ public abstract class ConnectionProtocol {
             return "UDP";
         }
     }
+    */
 
-    // Bluetooth Implementation
+    // Bluetooth Implementation - COMMENTED OUT
+    /*
     public static class BluetoothProtocol extends ConnectionProtocol {
         private BluetoothSocket bluetoothSocket;
         private BluetoothAdapter bluetoothAdapter;
@@ -190,16 +193,17 @@ public abstract class ConnectionProtocol {
             return "Bluetooth";
         }
     }
+    */
 
     // Factory method to create protocol instances
     public static ConnectionProtocol create(String protocolType) {
         switch (protocolType.toLowerCase()) {
             case "tcp":
                 return new TCPProtocol();
-            case "udp":
-                return new UDPProtocol();
-            case "bluetooth":
-                return new BluetoothProtocol();
+            // case "udp":
+            //     return new UDPProtocol();
+            // case "bluetooth":
+            //     return new BluetoothProtocol();
             default:
                 return new TCPProtocol(); // Default to TCP
         }

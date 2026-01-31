@@ -145,6 +145,8 @@
                         android:buttonTint="#4CAF50"
                         android:checked="true" />
 
+                    <!-- UDP RadioButton commented out -->
+                    <!--
                     <RadioButton
                         android:id="@+id/radioUdp"
                         android:layout_width="0dp"
@@ -153,7 +155,10 @@
                         android:text="UDP"
                         android:textColor="#FFFFFF"
                         android:buttonTint="#2196F3" />
+                    -->
 
+                    <!-- Bluetooth RadioButton commented out -->
+                    <!--
                     <RadioButton
                         android:id="@+id/radioBluetooth"
                         android:layout_width="0dp"
@@ -162,12 +167,13 @@
                         android:text="Bluetooth"
                         android:textColor="#FFFFFF"
                         android:buttonTint="#9C27B0" />
+                    -->
                 </RadioGroup>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Server IP / Bluetooth Address"
+                    android:hint="Server IP Address"
                     android:textColorHint="#888888"
                     app:boxBackgroundColor="#3D3D3D"
                     app:boxStrokeColor="#4CAF50"
@@ -247,7 +253,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="• TCP: Standard connection (recommended)\n• UDP: Low latency, faster gaming\n• Bluetooth: Wireless without WiFi\n\n1. Click 'Scan for Servers' to find Ponio\n2. Or enter IP manually\n3. Choose connection type\n4. Connect and enjoy!"
+                    android:text="• TCP: Standard connection (recommended)\n\n1. Click 'Scan for Servers' to find Ponio\n2. Or enter IP manually\n3. Connect and enjoy!"
                     android:textColor="#CCCCCC"
                     android:textSize="12sp"
                     android:lineSpacingMultiplier="1.2" />
